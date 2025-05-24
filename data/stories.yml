@@ -1,0 +1,38 @@
+version: "3.1"
+
+stories:
+- story: simple greeting and weather
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: ask_weather
+    entities:
+      - city: Москва
+  - action: action_get_weather
+  - intent: thank
+  - action: utter_thank
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: calculate something
+  steps:
+  - intent: calculate
+  - action: action_calculate
+
+- story: do a web search
+  steps:
+  - intent: search_web
+    entities:
+      - query: "рецепт борща"
+  - action: action_search_web
+
+- story: analyze sentiment
+  steps:
+  - intent: analyze_sentiment
+  - action: action_analyze_sentiment
+
+- story: sentiment fallback
+  steps:
+  - intent: nlu_fallback  
+  - action: action_analyze_sentiment
+  - action: utter_ask_rephrase
