@@ -69,7 +69,7 @@ class ActionSaveCity(Action):
         city = next(tracker.get_latest_entity_values("city"), None)
 
         if not city:
-            # Попробуем извлечь город из текста
+           
             text = tracker.latest_message.get('text', '').lower()
             if "город" in text:
                 city = text.split("город")[-1].strip(" -").capitalize()
