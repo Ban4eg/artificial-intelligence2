@@ -13,7 +13,7 @@ class ActionGetWeather(Action):
         return "action_get_weather"
 
     def extract_city(self, text: str) -> str:
-        """Извлекает город из текста сообщения"""
+        
         patterns = [
             r'погод[а-я]* в (?:городе )?([а-яё-]+)',
             r'в (?:городе )?([а-яё-]+)',
@@ -28,7 +28,7 @@ class ActionGetWeather(Action):
         return None
 
     def get_weather_data(self, city: str) -> Dict:
-        """Получает данные о погоде через API"""
+        
         url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric&lang=ru"
         try:
             response = requests.get(url, timeout=5)
@@ -45,7 +45,7 @@ class ActionGetWeather(Action):
         user_id = tracker.sender_id
         user_data = get_user_data(user_id)
 
-        # Получаем город из разных источников
+        
         city = (
                 next(tracker.get_latest_entity_values("city"), None) or  # Из entities
                 self.extract_city(tracker.latest_message.get("text", "")) or  # Из текста
@@ -60,10 +60,10 @@ class ActionGetWeather(Action):
 
         city = city.capitalize()
 
-        # Сохраняем город для будущих запросов
+        
         update_user_data(user_id, "city", city)
 
-        # Получаем данные о погоде
+        
         weather_data = self.get_weather_data(city)
 
         if not weather_data:
@@ -72,7 +72,7 @@ class ActionGetWeather(Action):
             )
             return [SlotSet("city", None)]
 
-        # Формируем ответ
+        
         temp = weather_data["main"]["temp"]
         description = weather_data["weather"][0]["description"]
         feels_like = weather_data["main"]["feels_like"]
